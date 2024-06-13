@@ -2,6 +2,8 @@
 from tkinter import Tk
 from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan, Profile, DataPeminjaman, DataDenda
 
+print("topek ngelu")
+
 if __name__ == "__main__" :
     loop = 1
     while loop :
