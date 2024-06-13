@@ -2,9 +2,6 @@
 from tkinter import Tk
 from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan, Profile, DataPeminjaman, DataDenda
 
-def print(Halo): 
-    print("Hello")
-
 if __name__ == "__main__" :
     loop = 1
     while loop :
