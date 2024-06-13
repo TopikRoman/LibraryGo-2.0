@@ -134,7 +134,7 @@ def tampilanDataBuku(akun):
         button_edit = ctk.CTkButton(tombolPerintah, text="Edit", command=lambda: windowEditBuku(updateTabelData))
         button_edit.grid(row=0, column=0, padx=10, pady=10)
         
-        button_add = ctk.CTkButton(tombolPerintah, text="Tambah", command=lambda: windowTambahBuku(updateTabelData))
+        button_add = ctk.CTkButton(tombolPerintah, text="Tambah", command=lambda: windowTambahBuku(updateTabelData, app))
         button_add.grid(row=0, column=1, padx=10, pady=10)
 
         button_delete = ctk.CTkButton(tombolPerintah, text="Hapus", command=hapusDataTerpilih)
@@ -213,11 +213,11 @@ def windowEditBuku(updateTabelData): #Jendela Edit Buku
     #UI Interface
 
 
-def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
+def windowTambahBuku(updateTabelData, app): # Jendela Tambah Buku
     
     #Fungsi Pendukung dalam Jendela
     def back() :
-        app.destroy()
+        popupTambah.destroy()
         return
 
     def focus_next_widget(event):
@@ -240,13 +240,13 @@ def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
             
             if not value:
                 messagebox.showerror("Error", "Data tidak lengkap")
-                app.destroy()
+                popupTambah.destroy()
                 return
             
             if i == 1:
                 if not value.isdigit() or len(value) != 4:
                     messagebox.showerror("Error", "Masukkan tahun terbit dengan benar")
-                    app.destroy()
+                    popupTambah.destroy()
                     return
                 
         QueryInput.append(entries[0].get().capitalize())
@@ -270,19 +270,22 @@ def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
         messagebox.showinfo("Success", "Data Berhasil")
         
         updateTabelData()
-        app.destroy()
+        popupTambah.destroy()
         
         return
     #Penghubung / Input kedalam Database
 
 
     #UI Interface
-    app = header()
+    popupTambah = Toplevel(app)
+    popupTambah.geometry('900x600')
+    popupTambah.attributes("-topmost", True)
+    popupTambah.grab_set()
     
-    tambahDatabukuLabel = ctk.CTkLabel(app, text="Tambah Data Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
+    tambahDatabukuLabel = ctk.CTkLabel(popupTambah, text="Tambah Data Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
     tambahDatabukuLabel.pack(padx=50, pady=25)
 
-    tambahDatabukuFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+    tambahDatabukuFrame = ctk.CTkFrame(popupTambah, fg_color='white', corner_radius=10)
     tambahDatabukuFrame.pack(padx=10, pady=10)
 
     labels = ["Judul Buku", "Tahun Terbit", "Penerbit", "Genre"]
@@ -301,7 +304,7 @@ def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
         entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
         entries.append(entry)
 
-    frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+    frame_action = ctk.CTkFrame(popupTambah, fg_color='white', corner_radius=10)
     frame_action.pack(padx=10, pady=10)
     
     submitData = ctk.CTkButton(frame_action, text="Submit", command=menambahDatabaseBuku)
@@ -310,7 +313,9 @@ def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
     Keluar = ctk.CTkButton(frame_action, text="Kembali", command=back)
     Keluar.grid(row=0, column=1, padx=10, pady=10)
     
-    app.mainloop()
+    
+    popupTambah.transient(app)
+    app.wait_window(popupTambah)
     #UI Interface
     
     return
